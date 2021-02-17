@@ -15,33 +15,14 @@ import java.util.ArrayList;
 @RequestMapping("/analysis")
 public class AnalysisController {
 
-    @GetMapping(value = "/stackoverflow/{repo}", produces = "application/json")
-    public String stackoverflow(@PathVariable String repo, HttpServletResponse response) {
-        AnalysisModel<AnalysisModel.Comment> stub = new AnalysisModel<>();
-        stub.site = "stackoverflow";
-        stub.repo = repo;
-        stub.commentList = new ArrayList<>();
-        for(int i = 1; i < 11; i++) {
-            AnalysisModel.Comment item = stub.new Comment()
-                    .site("stackoverflow").repo(repo).comment("example comment for "+ repo)
-                    .positive(0.6).negative(0.314);
-            stub.commentList.add(item);
-        }
-        return new Gson().toJson(stub) ;
-    }
+//    @GetMapping(value = "/stackoverflow/{repo}", produces = "application/json")
+//    public String stackoverflow(@PathVariable String repo, HttpServletResponse response) {
+//        return null;
+//    }
 
     @GetMapping(value = "/twitter/{repo}", produces = "application/json")
     public String twitter(@PathVariable String repo, HttpServletResponse response) {
-        AnalysisModel<AnalysisModel.Comment> stub = new AnalysisModel<>();
-        stub.site = "twitter";
-        stub.repo = repo;
-        stub.commentList = new ArrayList<>();
-        for(int i = 1; i < 11; i++) {
-            AnalysisModel.Comment item = stub.new Comment()
-                    .site("twitter").repo(repo).comment("example comment for "+ repo)
-                    .positive(0.6).negative(0.314);
-            stub.commentList.add(item);
-        }
-        return new Gson().toJson(stub) ;
+        TwitterResolver resolver = new TwitterResolver(response, repo);
+        return resolver.resolve();
     }
 }

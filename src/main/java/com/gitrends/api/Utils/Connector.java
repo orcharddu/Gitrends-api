@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Connector {
 
-    public static String getResponseBody(String url) throws Exception {
+    public static JsonObject getJsonResponse(String url) throws Exception {
         Connection.Response response = null;
         while(response == null) {
             response = Jsoup.connect(url)
@@ -21,12 +21,21 @@ public class Connector {
                     .timeout(1000 * 5)
                     .execute();
         }
-        return response.body();
+        return JsonParser.parseString(response.body()).getAsJsonObject();
     }
 
-    public static JsonObject getJsonResponse(String url) throws Exception {
-        String resp = getResponseBody(url);
-        return JsonParser.parseString(resp).getAsJsonObject();
+    public static JsonObject getJsonResponse(String url, Map<String, String> headers) throws Exception {
+        Connection.Response response = null;
+        while(response == null) {
+            response = Jsoup.connect(url)
+                    .ignoreContentType(true)
+                    .method(Connection.Method.GET)
+                    //.ignoreHttpErrors(true)
+                    .headers(headers)
+                    .timeout(1000 * 5)
+                    .execute();
+        }
+        return JsonParser.parseString(response.body()).getAsJsonObject();
     }
 
     public static Document getWebDocument(String url) throws Exception {
@@ -44,4 +53,5 @@ public class Connector {
         }
         return doc;
     }
+
 }
