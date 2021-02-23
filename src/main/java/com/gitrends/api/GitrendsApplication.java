@@ -21,5 +21,6 @@ public class GitrendsApplication {
 	public String index() {
 		//auto jump to main site: gitrends.com
 		return "<script type=\"text/javascript\">window.location.href=\"https://gitrends.com\";</script>";
+
 	}
 }
