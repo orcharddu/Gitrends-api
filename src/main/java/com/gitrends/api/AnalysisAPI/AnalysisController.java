@@ -23,7 +23,8 @@ public class AnalysisController {
     @GetMapping(value = "/twitter/{repo}", produces = "application/json")
     public String twitter(@PathVariable String repo, HttpServletResponse response) {
         TwitterResolver resolver = new TwitterResolver(response, repo);
-//        return resolver.resolve();
+        return resolver.resolve();
+        /*
         return "{\n" +
                 "    \"site\": \"twitter\",\n" +
                 "    \"repo\": \"ant-design\",\n" +
@@ -110,5 +111,7 @@ public class AnalysisController {
                 "        }\n" +
                 "    ]\n" +
                 "}";
+
+         */
     }
 }
